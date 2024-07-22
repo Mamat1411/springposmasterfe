@@ -1,0 +1,12 @@
+<form th:action="@{~/category/update/{id}(id=${category.id})}" th:object="${category}" method="post">
+    <input type="hidden" name="id" id="id" th:field="*{id}">
+    <div class="mb-3">
+        <label for="name" class="form-label">Category Name</label>
+        <input type="text" th:field="*{name}" class="form-control" id="name" name="name" placeholder="Category Name" required>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" th:field="*{description}" class="form-control" id="description" name="description" placeholder="Category Description" required>
+    </div>
+    <button type="submit" class="btn btn-primary" style="float: right;">Save</button>
+</form>

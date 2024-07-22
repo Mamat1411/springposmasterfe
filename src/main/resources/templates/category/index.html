@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="https://www.thymeleaf.org" xmlns:layout="http://www.ultreaq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/main}">
+<body>
+    <section layout:fragment="container">
+        <h1>Category Data</h1>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary my-3" onclick="openForm()">
+            Add Category Data
+        </button>
+
+        <div class="col-md-9 table-responsive">
+            <table class="table table-sm table-hover table-striped table-responsive table-bordered border border-dark">
+                <thead class="text-center">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Category Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr th:each="categoryData, iter : ${categories}">
+                        <th scope="row" th:text="${iter.count}"></th>
+                        <td th:text="${categoryData.name}"></td>
+                        <td th:text="${categoryData.description}"></td>
+                        <td class="text-center">
+                            <button class="btn btn-warning" th:value="${categoryData.id}" onclick="editForm(this.value)"><i class="bi bi-pencil-square"></i> Edit</button>
+                            <button class="btn btn-danger" th:value="${categoryData.id}" onclick="deleteForm(this.value)"><i class="bi bi-x-circle"></i> Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalTitle">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div> -->
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function openForm() {
+                $.ajax({
+                    url: '/category/form',
+                    type: 'get',
+                    contentType: 'html',
+                    success: function (categoryForm) {
+                        $('#myModal').modal('show');
+                        $('.modal-title').html("Category Form");
+                        $('.modal-body').html(categoryForm);
+                    }
+                });
+            }
+
+            function editForm(id) {
+                $.ajax({
+                    url: '/category/edit/' + id,
+                    type: 'get',
+                    contentType: 'html',
+                    success: function (categoryForm) {
+                        $('#myModal').modal('show');
+                        $('.modal-title').html("Edit Category");
+                        $('.modal-body').html(categoryForm);
+                    }
+                });
+            }
+
+            function deleteForm(id) {
+                $.ajax({
+                    url: `/category/delete/${id}`,
+                    type: `get`,
+                    contentType: `html`,
+                    success: function (categoryForm) {
+                        $('#myModal').modal('show');
+                        $('.modal-title').html("Delete Category");
+                        $('.modal-body').html(categoryForm);
+                    }
+                })
+            }
+
+            function deleteCategory(id) {
+                $.ajax({
+                    url: `/category/remove/${id}`,
+                    type: `get`,
+                    contentType: `html`,
+                    success: function (categoryForm) {
+                        location.reload();
+                    }
+                })
+            }
+        </script>
+    </section>
+</body>
+</html>
