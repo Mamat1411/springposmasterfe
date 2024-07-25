@@ -1,4 +1,4 @@
-package com.xa.posmasterfe.category.utilities;
+package com.xa.posmasterfe.utilities;
 
 public class Api {
     protected Api(){

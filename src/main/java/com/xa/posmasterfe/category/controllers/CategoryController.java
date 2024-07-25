@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xa.posmasterfe.category.dtos.requests.CategoryRequest;
 import com.xa.posmasterfe.category.dtos.responses.CategoryResponse;
-import com.xa.posmasterfe.category.utilities.Api;
+import com.xa.posmasterfe.utilities.Api;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
