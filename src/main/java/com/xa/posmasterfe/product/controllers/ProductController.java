@@ -46,7 +46,7 @@ public class ProductController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<?> entity = new HttpEntity<>(headers);
         try {
-            ResponseEntity<LinkedHashMap<String, Object>> response = restTemplate().exchange(Api.API_PRODUCT, HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
+            ResponseEntity<LinkedHashMap<String, Object>> response = restTemplate().exchange(Api.API_MASTER_PRODUCT, HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
             List<ProductResponse> products = (List<ProductResponse>) response.getBody().get("data");
             view.addObject("product", products);
         } catch (Exception e) {
@@ -63,7 +63,7 @@ public class ProductController {
         HttpEntity<?> entity = new HttpEntity<>(headers);
         ProductResponse product = new ProductResponse();
         try {
-            ResponseEntity<LinkedHashMap<String, Object>> categoryResponse = restTemplate().exchange(Api.API_CATEGORY, HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
+            ResponseEntity<LinkedHashMap<String, Object>> categoryResponse = restTemplate().exchange(Api.API_MASTER_CATEGORY, HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
             List<CategoryResponse> categories = (List<CategoryResponse>) categoryResponse.getBody().get("data");
             view.addObject("product", product);
             view.addObject("categories", categories);
@@ -79,7 +79,7 @@ public class ProductController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Object> entity = new HttpEntity<Object>(productRequest, headers);
         try {
-            restTemplate().exchange(Api.API_PRODUCT, HttpMethod.POST, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
+            restTemplate().exchange(Api.API_MASTER_PRODUCT, HttpMethod.POST, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
         } catch (Exception e) {
            e.printStackTrace();
         }
@@ -95,9 +95,9 @@ public class ProductController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<?> entity = new HttpEntity<>(headers);
         try {
-            ResponseEntity<LinkedHashMap<String, Object>> categoryResponse = restTemplate().exchange(Api.API_CATEGORY, HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
+            ResponseEntity<LinkedHashMap<String, Object>> categoryResponse = restTemplate().exchange(Api.API_MASTER_CATEGORY, HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
             List<CategoryResponse> categories = (List<CategoryResponse>) categoryResponse.getBody().get("data");
-            ResponseEntity<LinkedHashMap<String, Object>> response = restTemplate().exchange(Api.API_PRODUCT + "/" + id,
+            ResponseEntity<LinkedHashMap<String, Object>> response = restTemplate().exchange(Api.API_MASTER_PRODUCT + "/" + id,
                     HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
             ProductResponse data = modelMapper.map(response.getBody().get("data"), ProductResponse.class);
             view.addObject("product", data);
@@ -114,7 +114,7 @@ public class ProductController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Object> entity = new HttpEntity<Object>(productRequest, headers);
         try {
-            restTemplate().exchange(Api.API_PRODUCT + "/" + id, HttpMethod.PUT, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
+            restTemplate().exchange(Api.API_MASTER_PRODUCT + "/" + id, HttpMethod.PUT, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
         } catch (Exception e) {
            e.printStackTrace();
         }
@@ -131,7 +131,7 @@ public class ProductController {
         HttpEntity<?> entity = new HttpEntity<>(headers);
         try {
             
-            ResponseEntity<LinkedHashMap<String, Object>> response = restTemplate().exchange(Api.API_PRODUCT + "/" + id,
+            ResponseEntity<LinkedHashMap<String, Object>> response = restTemplate().exchange(Api.API_MASTER_PRODUCT + "/" + id,
                     HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
             ProductResponse data = modelMapper.map(response.getBody().get("data"), ProductResponse.class);
             view.addObject("product", data);
@@ -147,7 +147,7 @@ public class ProductController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Object> entity = new HttpEntity<Object>(headers);
         try {
-            restTemplate().exchange(Api.API_PRODUCT + "/" + id, HttpMethod.DELETE, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
+            restTemplate().exchange(Api.API_MASTER_PRODUCT + "/" + id, HttpMethod.DELETE, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
         } catch (Exception e) {
            e.printStackTrace();
         }

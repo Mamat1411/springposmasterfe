@@ -44,7 +44,7 @@ public class CategoryController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Object> entity = new HttpEntity<>(headers);
         try {
-            ResponseEntity<LinkedHashMap<String, Object>> responseCategory = restTemplate().exchange(Api.API_CATEGORY,
+            ResponseEntity<LinkedHashMap<String, Object>> responseCategory = restTemplate().exchange(Api.API_MASTER_CATEGORY,
                     HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
             List<CategoryResponse> data = (List<CategoryResponse>) responseCategory.getBody().get("data");
             String title = "Category Page";
@@ -70,7 +70,7 @@ public class CategoryController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Object> entity = new HttpEntity<Object>(categoryRequest, headers);
         try {
-            restTemplate().exchange(Api.API_CATEGORY, HttpMethod.POST, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
+            restTemplate().exchange(Api.API_MASTER_CATEGORY, HttpMethod.POST, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
         } catch (Exception e) {
            e.printStackTrace();
         }
@@ -85,7 +85,7 @@ public class CategoryController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<?> entity = new HttpEntity<>(headers);
         try {
-            ResponseEntity<LinkedHashMap<String, Object>> responseCategory = restTemplate().exchange(Api.API_CATEGORY + "/" + id,
+            ResponseEntity<LinkedHashMap<String, Object>> responseCategory = restTemplate().exchange(Api.API_MASTER_CATEGORY + "/" + id,
                     HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
             CategoryResponse data = modelMapper.map(responseCategory.getBody().get("data"), CategoryResponse.class);
             view.addObject("category", data);
@@ -101,7 +101,7 @@ public class CategoryController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Object> entity = new HttpEntity<Object>(categoryRequest, headers);
         try {
-            restTemplate().exchange(Api.API_CATEGORY + "/" + id, HttpMethod.PUT, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
+            restTemplate().exchange(Api.API_MASTER_CATEGORY + "/" + id, HttpMethod.PUT, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
         } catch (Exception e) {
            e.printStackTrace();
         }
@@ -116,7 +116,7 @@ public class CategoryController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<?> entity = new HttpEntity<>(headers);
         try {
-            ResponseEntity<LinkedHashMap<String, Object>> responseCategory = restTemplate().exchange(Api.API_CATEGORY + "/" + id,
+            ResponseEntity<LinkedHashMap<String, Object>> responseCategory = restTemplate().exchange(Api.API_MASTER_CATEGORY + "/" + id,
                     HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
             CategoryResponse data = modelMapper.map(responseCategory.getBody().get("data"), CategoryResponse.class);
             view.addObject("category", data);
@@ -132,7 +132,7 @@ public class CategoryController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Object> entity = new HttpEntity<Object>(headers);
         try {
-            restTemplate().exchange(Api.API_CATEGORY + "/" + id, HttpMethod.DELETE, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
+            restTemplate().exchange(Api.API_MASTER_CATEGORY + "/" + id, HttpMethod.DELETE, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
         } catch (Exception e) {
            e.printStackTrace();
         }

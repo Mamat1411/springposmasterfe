@@ -5,7 +5,8 @@ public class Api {
 
     }
 
-    public static final String BASE_PATH = "http://localhost:9000/api";
-    public static final String API_CATEGORY = BASE_PATH + "/category";
-    public static final String API_PRODUCT = BASE_PATH + "/product";
+    public static final String MASTER_BASE_PATH = "http://localhost:9000/api";
+    public static final String TRANSACTION_BASE_PATH = "http://localhost:9001/api";
+    public static final String API_MASTER_CATEGORY = MASTER_BASE_PATH + "/category";
+    public static final String API_MASTER_PRODUCT = MASTER_BASE_PATH + "/product";
 }
