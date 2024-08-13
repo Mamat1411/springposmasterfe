@@ -1,0 +1,32 @@
+<form th:action="@{~/variant/save}" th:object="${variant}" method="post">
+    <input type="hidden" name="id" id="id" th:field="*{id}">
+    <div class="mb-3">
+        <label for="categoryId" class="form-label">Category</label>
+        <select class="form-select" name="categoryId" id="categoryId" onclick="getProductByCategoryId(this.value)">
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="productId" class="form-label">Product</label>
+        <select class="form-select" name="productId" id="productId" th:field="*{productId}">
+            <!-- <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option> -->
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="name" class="form-label">Variant Name</label>
+        <input type="text" th:field="*{name}" class="form-control" id="name" name="name" placeholder="Variant Name" required>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" th:field="*{description}" class="form-control" id="description" name="description" placeholder="Variant Description" required>
+    </div>
+    <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input type="number" th:field="*{price}" class="form-control" id="price" name="price" placeholder="Variant Price" required>
+    </div>
+    <div class="mb-3">
+        <label for="stock" class="form-label">Stock</label>
+        <input type="number" th:field="*{stock}" class="form-control" id="stock" name="stock" placeholder="Variant Stock" required>
+    </div>
+    <button type="submit" class="btn btn-primary" style="float: right;">Save</button>
+</form>
