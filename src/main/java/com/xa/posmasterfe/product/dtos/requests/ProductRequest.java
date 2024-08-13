@@ -7,6 +7,7 @@ public class ProductRequest {
     private String name;
     private String description;
     private Long categoryId;
-    private Double price;
-    private Integer stock;
+    private String createdBy;
+    private String updatedBy;
+    private String isDeleted;
 }

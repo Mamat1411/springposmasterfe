@@ -18,8 +18,8 @@
                         <th scope="col">Category</th>
                         <th scope="col">Product Name</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Stock</th>
+                        <!-- <th scope="col">Price</th>
+                        <th scope="col">Stock</th> -->
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -29,8 +29,8 @@
                         <td th:text="${productData.category.name}"></td>
                         <td th:text="${productData.name}"></td>
                         <td th:text="${productData.description}"></td>
-                        <td th:text="${productData.price}"></td>
-                        <td th:text="${productData.stock}"></td>
+                        <!-- <td th:text="${productData.price}"></td>
+                        <td th:text="${productData.stock}"></td> -->
                         <td class="text-center">
                             <button class="btn btn-warning" th:value="${productData.id}" onclick="editForm(this.value)"><i class="bi bi-pencil-square"></i> Edit</button>
                             <button class="btn btn-danger" th:value="${productData.id}" onclick="deleteForm(this.value)"><i class="bi bi-x-circle"></i> Delete</button>

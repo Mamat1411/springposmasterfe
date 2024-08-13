@@ -39,6 +39,7 @@ public class ProductController {
         return new RestTemplate();
     }
 
+    @SuppressWarnings({ "null", "unchecked" })
     @GetMapping("")
     public ModelAndView getAllProducts() {
         ModelAndView view = new ModelAndView("product/index");
@@ -48,6 +49,7 @@ public class ProductController {
         try {
             ResponseEntity<LinkedHashMap<String, Object>> response = restTemplate().exchange(Api.API_MASTER_PRODUCT, HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
             List<ProductResponse> products = (List<ProductResponse>) response.getBody().get("data");
+            view.addObject("title", "Product Page");
             view.addObject("product", products);
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,6 +57,7 @@ public class ProductController {
         return view;
     }
     
+    @SuppressWarnings({ "null", "unchecked" })
     @GetMapping("/form")
     public ModelAndView form() {
         ModelAndView view = new ModelAndView("product/form");
@@ -86,6 +89,7 @@ public class ProductController {
         return new ModelAndView("redirect:/product");
     }
 
+    @SuppressWarnings({ "null", "unchecked" })
     @GetMapping("/edit/{id}")
     public ModelAndView editCategory(@PathVariable("id") Long id) {
         ModelAndView view = new ModelAndView("product/formEdit");
@@ -121,6 +125,7 @@ public class ProductController {
         return new ModelAndView("redirect:/product");
     }
 
+    @SuppressWarnings({ "null" })
     @GetMapping("/delete/{id}")
     public ModelAndView deleteCategory(@PathVariable("id") Long id) {
         ModelAndView view = new ModelAndView("product/deleteForm");
