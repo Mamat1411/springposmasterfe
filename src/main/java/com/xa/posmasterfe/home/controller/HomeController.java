@@ -13,6 +13,7 @@ public class HomeController {
     @GetMapping("")
     public ModelAndView home() {
         ModelAndView view = new ModelAndView("home/index");
+        view.addObject("title", "Home Page");
         return view;
     }
     
