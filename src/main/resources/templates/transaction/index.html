@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="https://www.thymeleaf.org" xmlns:layout="http://www.ultreaq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/main}">
+<body>
+    <section layout:fragment="container">
+        <h1>Transaction Data</h1>
+
+        <!-- Button trigger modal -->
+        <div class="d-flex col-10 p-2 my-3" style="background-color: rgb(0, 162, 255); border-radius: 10px;">
+            <button type="button" class="btn btn-warning my-3">
+                New Order
+            </button>
+            <button type="button" class="btn btn-success my-3 mx-1">
+                Payment
+            </button>
+            <button type="button" class="btn btn-light my-3">
+                New Transaction
+            </button>
+
+            <div class="ms-auto align-self-center w-25">
+                <input class="form-control" type="text" placeholder="Generated Order Header Here" readonly>
+            </div>
+        </div>
+
+        <div class="col-md-10 table-responsive">
+            <table class="table table-dark table-sm table-hover table-striped table-responsive">
+                <thead class="text-center">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total Price</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr>
+                        <th>1</th>
+                        <td>
+                            <input type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control">
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edit</button>
+                            <button class="btn btn-danger"><i class="bi bi-x-circle"></i> Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>2</th>
+                        <td>
+                            <input type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control">
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edit</button>
+                            <button class="btn btn-danger"><i class="bi bi-x-circle"></i> Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot class="table-group-divider">
+                    <tr>
+                        <th colspan="3">
+                            Total
+                        </th>
+                        <th>
+                            <input type="text" class="form-control">
+                        </th>
+                        <th>
+                            <input type="text" class="form-control">
+                        </th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalTitle">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            
+        </script>
+    </section>
+</body>
+</html>
