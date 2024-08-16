@@ -1,6 +1,12 @@
 <form th:action="@{~/variant/update/{id}(id=${variant.id})}" th:object="${variant}" method="post">
     <input type="hidden" name="id" id="id" th:field="*{id}">
     <div class="mb-3">
+        <label for="categoryId" class="form-label">Category</label>
+        <select class="form-select" name="categoryId" id="categoryId" onclick="getProductByCategoryId(this.value)">
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select>
+    </div>
+    <div class="mb-3">
         <label for="productId" class="form-label">Product</label>
         <select class="form-select" name="productId" id="productId" th:field="*{productId}">
             <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>

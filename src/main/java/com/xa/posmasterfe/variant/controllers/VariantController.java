@@ -98,12 +98,15 @@ public class VariantController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<?> entity = new HttpEntity<>(headers);
         try {
+            ResponseEntity<LinkedHashMap<String, Object>> categoryResponse = restTemplate().exchange(Api.API_MASTER_CATEGORY, HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
+            List<CategoryResponse> categories = (List<CategoryResponse>) categoryResponse.getBody().get("data");
+            ResponseEntity<LinkedHashMap<String, Object>> response = restTemplate().exchange(Api.API_MASTER_VARIANT + "/" + id,
+                    HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
             ResponseEntity<LinkedHashMap<String, Object>> productResponse = restTemplate().exchange(Api.API_MASTER_PRODUCT, HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
             List<ProductResponse> products = (List<ProductResponse>) productResponse.getBody().get("data");
-            ResponseEntity<LinkedHashMap<String, Object>> response = restTemplate().exchange(Api.API_MASTER_PRODUCT + "/" + id,
-                    HttpMethod.GET, entity, new ParameterizedTypeReference<LinkedHashMap<String, Object>>(){});
             VariantResponse data = modelMapper.map(response.getBody().get("data"), VariantResponse.class);
             view.addObject("variant", data);
+            view.addObject("categories", categories);
             view.addObject("products", products);
         } catch (Exception e) {
             e.printStackTrace();
