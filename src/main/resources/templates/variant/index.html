@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <tr th:each="variantData, iter : ${product}">
+                    <tr th:each="variantData, iter : ${variant}">
                         <th scope="row" th:text="${iter.count}"></th>
                         <td th:text="${variantData.product.name}"></td>
                         <td th:text="${variantData.name}"></td>
