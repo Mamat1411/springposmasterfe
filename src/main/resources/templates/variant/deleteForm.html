@@ -1,5 +1,8 @@
 <p>Are You Sure to Delete This Data?</p>
-Category Name: <span th:text="${category.name}"></span><br>
-Description: <span th:text="${category.description}"></span><br>
+Product: <span th:text="${variant.product.name}"></span><br>
+Variant Name: <span th:text="${variant.name}"></span><br>
+Description: <span th:text="${variant.description}"></span><br>
+Price: <span th:text="${variant.price}"></span><br>
+Stock: <span th:text="${variant.stock}"></span><br>
 <hr>
-<button class="btn btn-danger" style="float: right;" th:value="${category.id}" onclick="deleteCategory(this.value)">Delete</button>
+<button class="btn btn-danger" style="float: right;" th:value="${variant.id}" onclick="deleteVariant(this.value)">Delete</button>
