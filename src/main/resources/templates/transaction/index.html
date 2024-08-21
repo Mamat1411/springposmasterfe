@@ -7,23 +7,24 @@
 
         <!-- Button trigger modal -->
         <div class="d-flex col-10 p-2 my-3" style="background-color: rgb(0, 162, 255); border-radius: 10px;">
-            <button type="button" class="btn btn-warning my-3">
+            <button type="button" id="newOrder" class="btn btn-warning my-3" disabled>
                 New Order
             </button>
-            <button type="button" class="btn btn-success my-3 mx-1">
+            <button type="button" id="newPayment" class="btn btn-success my-3 mx-1" disabled>
                 Payment
             </button>
-            <button type="button" class="btn btn-light my-3">
+            <button type="button" id="newTransaction" class="btn btn-light my-3" onclick="getOrderHeader()">
                 New Transaction
             </button>
 
             <div class="ms-auto align-self-center w-25">
-                <input class="form-control" type="text" placeholder="Generated Order Header Here" readonly>
+                <input class="form-control" type="text" placeholder="Generated Order Header Here" id="reference" readonly>
+                <input type="hidden" id="orderHeaderId">
             </div>
         </div>
 
         <div class="col-md-10 table-responsive">
-            <table class="table table-dark table-sm table-hover table-striped table-responsive">
+            <table class="table table-sm table-hover table-striped table-responsive">
                 <thead class="text-center">
                     <tr>
                         <th scope="col">#</th>
@@ -107,7 +108,22 @@
         </div>
 
         <script>
-            
+            function getOrderHeader() {
+                $.ajax({
+                    url:'http://localhost:9001/api/orderheader',
+                    type: 'post',
+                    contentType: 'application/json',
+                    success: function (orderHeader) {
+                        console.log(orderHeader.data.reference);
+                        console.log(orderHeader.data.id);
+                        $('#reference').val(orderHeader.data.reference);
+                        $('#orderHeaderId').val(orderHeader.data.id);
+
+                        $('#newOrder').prop('disabled', false);
+                        $('#newTransaction').prop('disabled', true);
+                    }
+                })
+            }
         </script>
     </section>
 </body>
