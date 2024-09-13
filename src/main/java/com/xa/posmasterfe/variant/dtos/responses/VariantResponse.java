@@ -13,7 +13,7 @@ public class VariantResponse {
     private String description;
     private ProductResponse product;
     private Long productId;
-    private Double price;
+    private Long price;
     private Long stock;
     private LocalDateTime createdAt;
     private String createdBy;

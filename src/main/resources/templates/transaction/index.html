@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="https://www.thymeleaf.org" xmlns:layout="http://www.ultreaq.net.nz/thymeleaf/layout"
     layout:decorate="~{layouts/main}">
+
 <body>
     <section layout:fragment="container">
         <h1>Transaction Data</h1>
 
         <!-- Button trigger modal -->
         <div class="d-flex col-10 p-2 my-3" style="background-color: rgb(0, 162, 255); border-radius: 10px;">
-            <button type="button" id="newOrder" class="btn btn-warning my-3" disabled>
+            <button type="button" id="newOrder" class="btn btn-warning my-3" onclick="newOrder()" disabled>
                 New Order
             </button>
             <button type="button" id="newPayment" class="btn btn-success my-3 mx-1" disabled>
@@ -18,7 +19,8 @@
             </button>
 
             <div class="ms-auto align-self-center w-25">
-                <input class="form-control" type="text" placeholder="Generated Order Header Here" id="reference" readonly>
+                <input class="form-control" type="text" placeholder="Generated Order Header Here" id="reference"
+                    readonly>
                 <input type="hidden" id="orderHeaderId">
             </div>
         </div>
@@ -29,65 +31,17 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Product Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Total Price</th>
-                        <th scope="col">Action</th>
+                        <th scope="col" style="width: 15%;">Price</th>
+                        <th scope="col" style="width: 10%;">Quantity</th>
+                        <th scope="col" style="width: 15%;">Total Price</th>
+                        <th scope="col" style="width: 15%;">Action</th>
                     </tr>
                 </thead>
-                <tbody class="table-group-divider">
-                    <tr>
-                        <th>1</th>
-                        <td>
-                            <input type="text" class="form-control">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control">
-                        </td>
-                        <td class="text-center">
-                            <button class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edit</button>
-                            <button class="btn btn-danger"><i class="bi bi-x-circle"></i> Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>2</th>
-                        <td>
-                            <input type="text" class="form-control">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control">
-                        </td>
-                        <td class="text-center">
-                            <button class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edit</button>
-                            <button class="btn btn-danger"><i class="bi bi-x-circle"></i> Delete</button>
-                        </td>
-                    </tr>
+                <tbody class="table-group-divider" id="orderDetailData">
+
                 </tbody>
-                <tfoot class="table-group-divider">
-                    <tr>
-                        <th colspan="3">
-                            Total
-                        </th>
-                        <th>
-                            <input type="text" class="form-control">
-                        </th>
-                        <th>
-                            <input type="text" class="form-control">
-                        </th>
-                        <th></th>
-                    </tr>
+                <tfoot class="table-group-divider" id="orderDetailTotal">
+
                 </tfoot>
             </table>
         </div>
@@ -108,14 +62,14 @@
         </div>
 
         <script>
+            let selectedProducts = [];
+
             function getOrderHeader() {
                 $.ajax({
-                    url:'http://localhost:9001/api/orderheader',
+                    url: 'http://localhost:9001/api/orderheader',
                     type: 'post',
                     contentType: 'application/json',
                     success: function (orderHeader) {
-                        console.log(orderHeader.data.reference);
-                        console.log(orderHeader.data.id);
                         $('#reference').val(orderHeader.data.reference);
                         $('#orderHeaderId').val(orderHeader.data.id);
 
@@ -124,7 +78,103 @@
                     }
                 })
             }
+
+            function newOrder() {
+                $.ajax({
+                    url: '/transaction/getproductvariants',
+                    type: 'get',
+                    contentType: 'html',
+                    success: function (variantForm) {
+                        $('#myModal').modal('show');
+                        $('.modal-title').html("Select New Order");
+                        $('.modal-body').html(variantForm);
+                    }
+                })
+            }
+
+            function saveNewOrder(id) {
+                let jsonData = {
+                    price: $('#price').val(),
+                    variantId: id,
+                    headerId: $('#orderHeaderId').val(),
+                    quantity: 1
+                }
+
+                if (selectedProducts.length == 0) {
+                    selectedProducts.push(jsonData);
+                } else {
+                    let selected = selectedProducts.find(product => product.variantId === jsonData.variantId);
+                    if (selected && jsonData.variantId === selected.variantId) {
+                        selected.quantity += 1;
+                    } else {
+                        selectedProducts.push(jsonData);
+                    }
+                }
+                console.log(selectedProducts);
+                showSelectedItems();
+
+                // $.ajax({
+                //     url:`http://localhost:9001/api/orderdetail/${id}`,
+                //     type: 'post',
+                //     data:JSON.stringify(jsonData),
+                //     contentType: 'application/json',
+                //     success: function (orderDetail) {
+                //         console.log(orderDetail);
+                //     }
+                // })
+            }
+
+            function showSelectedItems() {
+                let number = 1;
+                let tbody = ``;
+                selectedProducts.forEach(product => {
+                    tbody += `
+                    <tr>
+                        <th>${number++}</th>
+                        <td>
+                            <input type="text" class="form-control" value="${product.variantId}" readonly>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" value="${product.price}" readonly>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" value="${product.quantity}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" value="${(product.quantity) * (product.price)}" readonly>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-danger" onclick="deleteProduct(${product.variantId})"><i class="bi bi-x-circle"></i> Delete</button>
+                        </td>
+                    </tr>
+                `
+                });
+                $('#orderDetailData').html(tbody);
+
+                let tfoot = `
+                    <tr>
+                        <th colspan="3">
+                            Total
+                        </th>
+                        <th>
+                            <input type="text" class="form-control">
+                        </th>
+                        <th>
+                            <input type="text" class="form-control">
+                        </th>
+                        <th></th>
+                    </tr>
+                `;
+                $('#orderDetailTotal').html(tfoot);
+            }
+
+            function deleteProduct(id) {
+                let selected = selectedProducts.filter((product => product.variantId != id));
+                selectedProducts = selected;
+                showSelectedItems();
+            }
         </script>
     </section>
 </body>
+
 </html>

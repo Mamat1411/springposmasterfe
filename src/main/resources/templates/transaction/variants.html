@@ -1,0 +1,24 @@
+<table class="table table-responsive-sm">
+    <thead class="thead-dark">
+        <tr>
+            <th>Select</th>
+            <th>Product</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        <tr th:each="variantData : ${variant}">
+            <td>
+                <button class="btn btn-success" th:value="${variantData.id}" onclick="saveNewOrder(this.value)">
+                    <i class="bi bi-cart-plus"></i>
+                </button>
+            </td>
+            <td th:text="${variantData.product.name}"></td>
+            <td th:text="${variantData.name}"></td>
+            <td th:text="${variantData.price}"></td>
+            <td th:text="${variantData.stock}"></td>
+        </tr>
+    </tbody>
+</table>
