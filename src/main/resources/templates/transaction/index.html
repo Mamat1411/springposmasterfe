@@ -65,18 +65,19 @@
             let selectedProducts = [];
 
             function getOrderHeader() {
-                $.ajax({
-                    url: 'http://localhost:9001/api/orderheader',
-                    type: 'post',
-                    contentType: 'application/json',
-                    success: function (orderHeader) {
-                        $('#reference').val(orderHeader.data.reference);
-                        $('#orderHeaderId').val(orderHeader.data.id);
+                let dateNow = Date.now();
+                // $.ajax({
+                //     url: 'http://localhost:9001/api/orderheader',
+                //     type: 'post',
+                //     contentType: 'application/json',
+                //     success: function (orderHeader) {
+                //         $('#orderHeaderId').val(orderHeader.data.id);
+                //     }
+                // })
+                $('#reference').val(dateNow);
 
-                        $('#newOrder').prop('disabled', false);
-                        $('#newTransaction').prop('disabled', true);
-                    }
-                })
+                $('#newOrder').prop('disabled', false);
+                $('#newTransaction').prop('disabled', true);
             }
 
             function newOrder() {
@@ -94,10 +95,11 @@
 
             function saveNewOrder(id) {
                 let jsonData = {
-                    price: $('#price').val(),
+                    price: $('#price_'+id).val(),
                     variantId: id,
                     headerId: $('#orderHeaderId').val(),
-                    quantity: 1
+                    quantity: 1,
+                    variantName: $('#variant_'+id).val()
                 }
 
                 if (selectedProducts.length == 0) {
@@ -127,21 +129,24 @@
             function showSelectedItems() {
                 let number = 1;
                 let tbody = ``;
+                let totalQty = 0;
+                let totalPrice = 0;
                 selectedProducts.forEach(product => {
+                    let total = product.quantity * product.price;
                     tbody += `
                     <tr>
                         <th>${number++}</th>
                         <td>
-                            <input type="text" class="form-control" value="${product.variantId}" readonly>
+                            <input type="text" class="form-control" value="${product.variantName}" readonly>
                         </td>
                         <td>
-                            <input type="text" class="form-control" value="${product.price}" readonly>
+                            <input type="text" class="form-control" id="price" value="${product.price}" readonly>
                         </td>
                         <td>
-                            <input type="number" class="form-control" value="${product.quantity}">
+                            <input type="number" class="form-control" id="quantity" value="${product.quantity}" readonly>
                         </td>
                         <td>
-                            <input type="text" class="form-control" value="${(product.quantity) * (product.price)}" readonly>
+                            <input type="text" class="form-control" id="total" value="${total}" readonly>
                         </td>
                         <td class="text-center">
                             <button class="btn btn-danger" onclick="deleteProduct(${product.variantId})"><i class="bi bi-x-circle"></i> Delete</button>
@@ -151,21 +156,31 @@
                 });
                 $('#orderDetailData').html(tbody);
 
+                selectedProducts.forEach(product => {
+                    totalQty += +product.quantity;
+                    totalPrice += (product.price * product.quantity);
+                });
+
                 let tfoot = `
                     <tr>
                         <th colspan="3">
                             Total
                         </th>
                         <th>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" value="${totalQty}">
                         </th>
                         <th>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" value="${totalPrice}">
                         </th>
                         <th></th>
                     </tr>
                 `;
                 $('#orderDetailTotal').html(tfoot);
+                $('#newPayment').prop('disabled', false);
+                if (selectedProducts.length < 1) {
+                    $('#newPayment').prop('disabled', true);
+                    $('#orderDetailTotal').empty();
+                }
             }
 
             function deleteProduct(id) {
