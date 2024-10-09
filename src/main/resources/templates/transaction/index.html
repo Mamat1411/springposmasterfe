@@ -11,7 +11,7 @@
             <button type="button" id="newOrder" class="btn btn-warning my-3" onclick="newOrder()" disabled>
                 New Order
             </button>
-            <button type="button" id="newPayment" class="btn btn-success my-3 mx-1" disabled>
+            <button type="button" id="newPayment" class="btn btn-success my-3 mx-1" onclick="newPayment()" disabled>
                 Payment
             </button>
             <button type="button" id="newTransaction" class="btn btn-light my-3" onclick="getOrderHeader()">
@@ -32,7 +32,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Product Name</th>
                         <th scope="col" style="width: 15%;">Price</th>
-                        <th scope="col" style="width: 10%;">Quantity</th>
+                        <th scope="col" style="width: 5%;">Quantity</th>
                         <th scope="col" style="width: 15%;">Total Price</th>
                         <th scope="col" style="width: 15%;">Action</th>
                     </tr>
@@ -63,6 +63,7 @@
 
         <script>
             let selectedProducts = [];
+            let totalPrice = 0;
 
             function getOrderHeader() {
                 let dateNow = Date.now();
@@ -89,6 +90,21 @@
                         $('#myModal').modal('show');
                         $('.modal-title').html("Select New Order");
                         $('.modal-body').html(variantForm);
+                    }
+                })
+            }
+
+            function newPayment() {
+                $.ajax({
+                    url: '/transaction/payment',
+                    type: 'get',
+                    contentType: 'html',
+                    success: function (paymentForm) {
+                        $('#myModal').modal('show');
+                        $('.modal-title').html("Payment");
+                        $('.modal-body').html(paymentForm);
+                        $('#paymentRef').val($('#reference').val());
+                        $('#bill').val(totalPrice);
                     }
                 })
             }
@@ -130,9 +146,10 @@
                 let number = 1;
                 let tbody = ``;
                 let totalQty = 0;
-                let totalPrice = 0;
+                totalPrice = 0;
+                let total = 0;
                 selectedProducts.forEach(product => {
-                    let total = product.quantity * product.price;
+                    total = product.quantity * product.price;
                     tbody += `
                     <tr>
                         <th>${number++}</th>
@@ -143,7 +160,7 @@
                             <input type="text" class="form-control" id="price" value="${product.price}" readonly>
                         </td>
                         <td>
-                            <input type="number" class="form-control" id="quantity" value="${product.quantity}" readonly>
+                            <input type="text" class="form-control" id="quantity" value="${product.quantity}" readonly>
                         </td>
                         <td>
                             <input type="text" class="form-control" id="total" value="${total}" readonly>
@@ -153,12 +170,14 @@
                         </td>
                     </tr>
                 `
+                    totalPrice += total;
                 });
                 $('#orderDetailData').html(tbody);
+                console.log(totalPrice);
+                
 
                 selectedProducts.forEach(product => {
                     totalQty += +product.quantity;
-                    totalPrice += (product.price * product.quantity);
                 });
 
                 let tfoot = `
@@ -167,10 +186,10 @@
                             Total
                         </th>
                         <th>
-                            <input type="text" class="form-control" value="${totalQty}">
+                            <input type="text" class="form-control" value="${totalQty}" readonly>
                         </th>
                         <th>
-                            <input type="text" class="form-control" value="${totalPrice}">
+                            <input type="text" class="form-control" value="${totalPrice}" readonly>
                         </th>
                         <th></th>
                     </tr>
@@ -180,6 +199,9 @@
                 if (selectedProducts.length < 1) {
                     $('#newPayment').prop('disabled', true);
                     $('#orderDetailTotal').empty();
+                    totalQty = 0;
+                    totalPrice = 0;
+                    total = 0;
                 }
             }
 
@@ -187,6 +209,12 @@
                 let selected = selectedProducts.filter((product => product.variantId != id));
                 selectedProducts = selected;
                 showSelectedItems();
+            }
+
+            function calculatePayment(payment) {
+                let bill = $('#bill').val();
+                let change = payment - bill;
+                $('#change').val(change);
             }
         </script>
     </section>

@@ -21,6 +21,7 @@ import com.xa.posmasterfe.variant.dtos.responses.VariantResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
+
 @Configuration
 @Controller
 @RequestMapping("/transaction")
@@ -54,4 +55,11 @@ public class TransactionController {
         }
         return view;
     }
+
+    @GetMapping("/payment")
+    public ModelAndView paymentView() {
+        ModelAndView view = new ModelAndView("transaction/payment.html");
+        return view;
+    }
+    
 }
