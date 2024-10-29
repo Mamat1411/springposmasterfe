@@ -1,8 +1,7 @@
 let selectedProducts = [];
 let totalPrice = 0;
-
+let dateNow = 0;
 function getOrderHeader() {
-    let dateNow = Date.now();
     // $.ajax({
     //     url: 'http://localhost:9001/api/orderheader',
     //     type: 'post',
@@ -11,6 +10,7 @@ function getOrderHeader() {
     //         $('#orderHeaderId').val(orderHeader.data.id);
     //     }
     // })
+    dateNow = Date.now();
     $('#reference').val(dateNow);
 
     $('#newOrder').prop('disabled', false);
@@ -49,7 +49,6 @@ function saveNewOrder(id) {
     let jsonData = {
         price: $('#price_' + id).val(),
         variantId: id,
-        headerId: $('#orderHeaderId').val(),
         quantity: 1,
         variantName: $('#variant_' + id).val()
     }
@@ -151,4 +150,17 @@ function calculatePayment(payment) {
     let bill = $('#bill').val();
     let change = payment - bill;
     $('#change').val(change);
+}
+
+function payBill() {
+    $.ajax({
+        type: "post",
+        url: `http://localhost:9001/api/orders/${dateNow}`,
+        data: JSON.stringify(selectedProducts),
+        contentType: "application/json",
+        success: function (response) {
+            console.log(response);
+            
+        }
+    });
 }

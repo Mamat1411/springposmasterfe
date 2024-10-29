@@ -1,19 +1,17 @@
-<form action="">
-    <div class="mb-3">
-        <label for="paymentRef">Reference</label>
-        <input type="text" class="form-control" id="paymentRef">
-    </div>
-    <div class="mb-3">
-        <label for="bill">Bill</label>
-        <input type="text" class="form-control" id="bill">
-    </div>
-    <div class="mb-3">
-        <label for="payment">Payment</label>
-        <input type="number" class="form-control" id="payment" onkeyup="calculatePayment(this.value)">
-    </div>
-    <div class="mb-3">
-        <label for="change">Change</label>
-        <input type="text" class="form-control" id="change" readonly>
-    </div>
-    <button class="btn btn-success" style="float: right;">Pay</button>
-</form>
+<div class="mb-3">
+    <label for="paymentRef">Reference</label>
+    <input type="text" class="form-control" id="paymentRef">
+</div>
+<div class="mb-3">
+    <label for="bill">Bill</label>
+    <input type="text" class="form-control" id="bill">
+</div>
+<div class="mb-3">
+    <label for="payment">Payment</label>
+    <input type="number" class="form-control" id="payment" onkeyup="calculatePayment(this.value)">
+</div>
+<div class="mb-3">
+    <label for="change">Change</label>
+    <input type="text" class="form-control" id="change" readonly>
+</div>
+<button class="btn btn-success" style="float: right;" onclick="payBill()">Pay</button>
